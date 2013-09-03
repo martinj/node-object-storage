@@ -1,0 +1,37 @@
+{
+  "name": "object-storage",
+  "version": "0.1.0",
+  "description": "Client for openstack object-storage.",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/jshint test/ lib/ index.js && ./node_modules/.bin/mocha test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/martinj/node-object-storage",
+    "homepage": "http://github.com/martinj/node-object-storage"
+  },
+  "keywords": [
+    "objectstorage",
+    "object-storage",
+    "openstack",
+    "openstack-storage",
+    "swift"
+  ],
+  "author": "Martin Jonsson <martin.jonsson@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/martinj/node-object-storage/issues"
+  },
+  "dependencies": {
+    "q": "~0.9.6",
+    "superagent": "~0.15.4",
+    "debug": "~0.7.2"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.1",
+    "jshint": "~2.1.10",
+    "nock": "~0.22.1",
+    "should": "~1.2.2"
+  }
+}
