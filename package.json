@@ -1,6 +1,6 @@
 {
   "name": "object-storage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Client for openstack object-storage.",
   "main": "index.js",
   "scripts": {
@@ -24,8 +24,8 @@
     "url": "https://github.com/martinj/node-object-storage/issues"
   },
   "dependencies": {
-    "q": "~0.9.6",
-    "superagent": "~0.15.4",
+    "q": "~0.9.7",
+    "superagent": "~0.15.7",
     "debug": "~0.7.2"
   },
   "devDependencies": {
