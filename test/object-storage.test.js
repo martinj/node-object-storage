@@ -93,21 +93,30 @@ describe('Object Storage', function () {
 	});
 
 	describe('#putFile', function () {
-		it('should upload file and returns its url', function (done) {
-			var opts = {
+		beforeEach(function () {
+			this.opts = {
 				src: __dirname + '/object-storage.test.js',
 				dst: 'foo/small.jpg',
 				headers: {
 					'Content-Type': 'image/jpeg'
 				}
 			};
+		});
 
+		it('should upload file and returns its url', function (done) {
 			nock(this.storageUrl)
 				.put('/foo/small.jpg')
 				.reply(201);
 
-			this.store.putFile(opts).then(function (url) {
+			this.store.putFile(this.opts).then(function (url) {
 				url.should.equal('http://storageUrl/foo/small.jpg');
+				done();
+			}).done();
+		});
+
+		it('should catch errors and reject with promise', function (done) {
+			this.store.putFile(this.opts).fail(function (error) {
+				error.message.should.equal('getaddrinfo ENOTFOUND');
 				done();
 			}).done();
 		});
