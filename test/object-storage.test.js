@@ -68,6 +68,17 @@ describe('Object Storage', function () {
 		});
 	});
 
+	describe('#copy', function () {
+		it('should copy object', function (done) {
+			nock(this.storageUrl)
+				.put('/foo/file.zip')
+				.reply(201);
+			this.store.copy('/foo/srcFile.zip', '/foo/file.zip').then(function () {
+				done();
+			}).done();
+		});
+	});
+
 	describe('#list', function () {
 		it('should receive list of containers when no container specified', function (done) {
 			nock(this.storageUrl)
