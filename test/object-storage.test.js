@@ -126,7 +126,7 @@ describe('Object Storage', function () {
 		});
 
 		it('should catch errors and reject with promise', function (done) {
-			this.store.putFile(this.opts).fail(function (error) {
+			this.store.putFile(this.opts).catch(function (error) {
 				error.message.should.equal('getaddrinfo ENOTFOUND');
 				done();
 			}).done();
