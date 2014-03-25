@@ -131,6 +131,31 @@ describe('Object Storage', function () {
 				done();
 			}).done();
 		});
+
+		it('should reject promise on error response from server', function (done) {
+			nock(this.storageUrl)
+				.put('/foo/small.jpg')
+				.reply(500);
+
+			this.store.putFile(this.opts).catch(function (error) {
+				error.message.should.equal('PUT http://storageUrl/foo/small.jpg responded with statusCode: 500, body: ');
+				done();
+			}).done();
+		});
+
+		it('should reject promise on request timeout', function (done) {
+			nock(this.storageUrl)
+				.put('/foo/small.jpg')
+				.delay(1000)
+				.reply(201);
+
+			this.store.timeout = 100;
+			this.store.putFile(this.opts).catch(function (error) {
+				error.message.should.equal('timeout of 100ms exceeded');
+				done();
+			}).done();
+		});
+
 	});
 
 	describe('#deleteFile', function () {
