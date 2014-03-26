@@ -143,19 +143,35 @@ describe('Object Storage', function () {
 			}).done();
 		});
 
-		it('should reject promise on request timeout', function (done) {
-			nock(this.storageUrl)
-				.put('/foo/small.jpg')
-				.delay(1000)
-				.reply(201);
+		describe('Timeout', function () {
+			var server = require('http').createServer(function (req, res) {
+				setTimeout(function () {
+					res.writeHead(200, {'content-type': 'text/plain'});
+					res.end();
+				}, 300);
+			});
 
-			this.store.timeout = 100;
-			this.store.putFile(this.opts).catch(function (error) {
-				error.message.should.equal('timeout of 100ms exceeded');
-				done();
-			}).done();
+			beforeEach(function (done) {
+				server.on('listening', function () {
+					done();
+				}).listen(9898);
+			});
+
+			afterEach(function (done) {
+				server.close(function () {
+					done();
+				});
+			});
+
+			it('should reject on timeout', function (done) {
+				this.store.storageUrl = 'http://127.0.0.1:9898';
+				this.store.timeout = 100;
+				this.store.putFile(this.opts).catch(function (error) {
+					error.message.should.equal('ETIMEDOUT');
+					done();
+				}).done();
+			});
 		});
-
 	});
 
 	describe('#deleteFile', function () {
