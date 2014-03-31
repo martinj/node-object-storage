@@ -1,6 +1,6 @@
 {
   "name": "object-storage",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Client for openstack object-storage.",
   "main": "index.js",
   "scripts": {
