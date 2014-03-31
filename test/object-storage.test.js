@@ -83,10 +83,23 @@ describe('Object Storage', function () {
 		it('should receive list of containers when no container specified', function (done) {
 			nock(this.storageUrl)
 				.get('/')
-				.reply(200, ['1'], { 'Content-Type': 'application/json' });
+				.reply(200, ['1', '2', '3'], { 'Content-Type': 'application/json' });
 
 			this.store.list().then(function (containers) {
-				containers.length.should.be.above(0);
+				containers.should.be.type('object');
+				containers.length.should.equal(3);
+				done();
+			}).done();
+		});
+
+		it('should not parse json if other content type', function (done) {
+			nock(this.storageUrl)
+				.get('/')
+				.reply(200, ['1', '2', '3'], { 'Content-Type': 'text/plain' });
+
+			this.store.list().then(function (containers) {
+				containers.should.be.type('string');
+				containers.should.equal('[\"1\",\"2\",\"3\"]');
 				done();
 			}).done();
 		});
@@ -148,7 +161,7 @@ describe('Object Storage', function () {
 				setTimeout(function () {
 					res.writeHead(200, {'content-type': 'text/plain'});
 					res.end();
-				}, 300);
+				}, 500);
 			});
 
 			beforeEach(function (done) {
